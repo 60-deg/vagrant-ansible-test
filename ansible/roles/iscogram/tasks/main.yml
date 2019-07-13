@@ -1,0 +1,28 @@
+- name: Create /srv/docker-lecture
+  file:
+    path: /srv/docker-lecture
+    state: directory
+    mode: 0755
+
+- name: Clone docker-lecture repo
+  git:
+    repo: git@github.com:60-deg/docker-lecture.git
+    dest: /srv/docker-lecture
+
+- name: Check iscogram repo
+  shell: ls -aU /srv/docker-lecture/iscogram
+  register: iscogram_repo
+
+- name: Build iscogram
+  docker_image:
+    path: /srv/docker-lecture/iscogram
+    name: iscogram
+    force: yes
+  when: iscogram_repo.changed
+
+- name: Run iscogram
+  docker_container:
+    name: iscogram
+    image: iscogram
+    restart_policy: always
+    ports: 127.0.0.1:1234:8000
