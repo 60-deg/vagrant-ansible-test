@@ -1,0 +1,6 @@
+- name: Install common packages
+  yum:
+    name:
+      - git
+    state: latest
+    update_cache: yes

@@ -1,4 +1,5 @@
 - hosts: targets
   user: root
   roles:
+    - yum
     - iscogram
